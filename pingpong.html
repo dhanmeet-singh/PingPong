@@ -1,0 +1,62 @@
+<html>
+	<body>
+		<svg width=500 height=200 id="pingPong" onload=startup(evt)>
+			<script>
+			
+				var speedX = 1;
+				var speedY = 1;
+				var ballMoveIntervalId;
+				
+				function startup(evt) {
+					ballMoveIntervalId = setInterval(moveBall, 20);
+					document.addEventListener("mousemove", setBar);
+				}
+				
+				function moveBall() {
+					var areaWidth = parseInt(document.getElementById("pingPong").getAttribute("width"));
+					var areaHeight = parseInt(document.getElementById("pingPong").getAttribute("height"));
+					
+					var barPosition = parseInt(document.getElementById("bar").getAttribute("x"));
+					var barWidth = parseInt(document.getElementById("bar").getAttribute("width"));
+					
+					var radius = parseInt(document.getElementById("ball").getAttribute("r"));
+					var currentPositionX = parseInt(document.getElementById("ball").getAttribute("cx"));
+					var currentPositionY = parseInt(document.getElementById("ball").getAttribute("cy"));
+					
+					if(((currentPositionX - radius) < 0) || ((currentPositionX + radius > areaWidth)))
+					{
+						speedX *= -1;
+					}
+					
+					if((currentPositionY - radius) < 0)
+					{
+						speedY *= -1;
+					}
+					
+					if((currentPositionY + radius) > areaHeight)
+					{
+						if((currentPositionX - radius >= barPosition) && ((currentPositionX + radius) <= (barPosition + barWidth)))
+						{
+							speedY *= -1;
+						}
+						else
+						{
+							clearInterval(ballMoveIntervalId);
+							alert("Game Over!!");
+						}
+					}
+					
+					document.getElementById("ball").setAttribute("cx", currentPositionX + speedX);
+					document.getElementById("ball").setAttribute("cy", currentPositionY + speedY);
+				}
+				
+				function setBar(event) {
+					document.getElementById("bar").setAttribute("x", event.clientX);
+				}
+			</script>
+			
+			<circle cx="100" cy="10" r="10" fill="blue" id="ball"/>
+			<rect x=100 y=198 width=50 height=2 id="bar" fill="black"/>
+		</svg>
+	</body>
+</html>
