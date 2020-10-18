@@ -35,7 +35,7 @@
 					
 					if((currentPositionY + radius) > areaHeight)
 					{
-						if((currentPositionX - radius >= barPosition) && ((currentPositionX + radius) <= (barPosition + barWidth)))
+						if((currentPositionX >= barPosition) && (currentPositionX <= (barPosition + barWidth)))
 						{
 							speedY *= -1;
 						}
@@ -48,6 +48,14 @@
 					
 					document.getElementById("ball").setAttribute("cx", currentPositionX + speedX);
 					document.getElementById("ball").setAttribute("cy", currentPositionY + speedY);
+					
+					// Update Score
+					var score = parseInt(document.getElementById("score").innerHTML.split(":")[1]) + 1;
+					document.getElementById("score").innerHTML = "Score:" + score;
+					
+					// Increase speed by level
+					// speedX = ((score / 1000) + 1) * (speedX / Math.abs(speedX));
+					// speedY = ((score / 1000) + 1) * (speedY / Math.abs(speedY));
 				}
 				
 				function setBar(event) {
@@ -57,6 +65,7 @@
 			
 			<circle cx="100" cy="10" r="10" fill="blue" id="ball"/>
 			<rect x=100 y=198 width=50 height=2 id="bar" fill="black"/>
+			<text x=400 y=20 id="score"> Score:1 </text>
 		</svg>
 	</body>
 </html>
