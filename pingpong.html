@@ -23,6 +23,14 @@
 					var currentPositionX = parseInt(document.getElementById("ball").getAttribute("cx"));
 					var currentPositionY = parseInt(document.getElementById("ball").getAttribute("cy"));
 					
+					// Update Score
+					var score = parseInt(document.getElementById("score").innerHTML.split(":")[1]) + 1;
+					document.getElementById("score").innerHTML = "Score:" + score;
+					
+					// Update ball position
+					currentPositionX += speedX;
+					currentPositionY += speedY;
+					
 					if(((currentPositionX - radius) < 0) || ((currentPositionX + radius > areaWidth)))
 					{
 						speedX *= -1;
@@ -46,16 +54,35 @@
 						}
 					}
 					
-					document.getElementById("ball").setAttribute("cx", currentPositionX + speedX);
-					document.getElementById("ball").setAttribute("cy", currentPositionY + speedY);
+					// Bring ball position within window
 					
-					// Update Score
-					var score = parseInt(document.getElementById("score").innerHTML.split(":")[1]) + 1;
-					document.getElementById("score").innerHTML = "Score:" + score;
+					if(currentPositionX < 0)
+					{
+						currentPositionX = Math.abs(currentPositionX);
+					}
+					
+					if(currentPositionX > areaWidth)
+					{
+						currentPositionX -= 2*(currentPositionX - areaWidth);
+					}
+					
+					if(currentPositionY < 0)
+					{
+						currentPositionY = Math.abs(currentPositionY);
+					}
+					
+					if(currentPositionY > areaHeight)
+					{
+						currentPositionY -= 2*(currentPositionY - areaHeight);
+					}
+					
+					// Update position on Webpage
+					document.getElementById("ball").setAttribute("cx", currentPositionX);
+					document.getElementById("ball").setAttribute("cy", currentPositionY);
 					
 					// Increase speed by level
-					// speedX = ((score / 1000) + 1) * (speedX / Math.abs(speedX));
-					// speedY = ((score / 1000) + 1) * (speedY / Math.abs(speedY));
+					speedX = Math.ceil(score / 1000) * (speedX / Math.abs(speedX));
+					speedY = Math.ceil(score / 1000) * (speedY / Math.abs(speedY));
 				}
 				
 				function setBar(event) {
